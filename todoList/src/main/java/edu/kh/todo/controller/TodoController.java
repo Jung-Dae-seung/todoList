@@ -125,28 +125,34 @@ public class TodoController {
 			Model model) {
 		
 		// GET 요청 방식
+		// GET 요청이 들어오면 수정 페이지로 이동
 		if(method == HttpMethod.GET) {
+			// todoNo의 해당 데이터 조회해서 입력값 설정
 			Todo todoData = service.todoDetail(todoNo);
 			model.addAttribute("todo", todoData);
 			return "todo/update";
 		}
 		
 		// POST 요청 방식
+		// POST 요청이 들어오면 수정 서비스 진행 (수정 페이지의 form 태그 POST)
 		int result = service.updateTodo(todo);
 		
 		String message = null;
 		String path = null;
 		
+		// 수정 성공시 메인페이지
 		if(result > 0) {
 			path = "redirect:/";
 			message = "수정 성공!!!";
 			
 		} else {
+			// 수정 실패시 수정페이지로 redirect
 			path = "redirect:updatePage?todoNo=" + todo.getTodoNo();
 			message = "수정 실패...";
 			
 		}
 		
+		// 1회성 값 전달
 		ra.addFlashAttribute("message", message);
 		
 		return path;
@@ -167,16 +173,19 @@ public class TodoController {
 		String path = null;
 		String message = null;
 		
+		// 삭제 성공시 메인페이지 이동
 		if(result > 0) {
 			path = "redirect:/";
 			message = "삭제 성공!!!";
 			
 		} else {
+			// 삭제 실패시 상세 페이지로 redirect
 			path = "redirect:detail?todoNo=" + todoNo;
 			message = "삭제 실패...";
 			
 		}
 		
+		// 1회성 값 전달
 		ra.addFlashAttribute("message", message);
 		
 		return path;
